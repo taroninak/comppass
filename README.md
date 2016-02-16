@@ -1,2 +1,2 @@
 # comppass
-Comppass is a lightweight node module which provide basic functionality for compareing objects
+Comppass is a lightweight node module which provide basic functionality for comparing objects

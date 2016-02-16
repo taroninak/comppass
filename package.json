@@ -1,17 +1,20 @@
 {
   "name": "comppass",
   "version": "1.0.0",
-  "description": "Comppass is a lightweight node module which provide basic functionality for compareing objects",
+  "description": "Comppass is a lightweight node module which provide basic functionality for comparing objects",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests --timeout 5000"
+    "test": "./node_modules/mocha/bin/mocha tests --timeout 5000"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/taronpa/comppass.git"
+    "url": "git+https://github.com/taronpa/comppass.git"
   },
   "keywords": [
+    "assert",
     "assertion",
+    "test",
+    "testing",
     "compare",
     "objects",
     "node",
@@ -19,10 +22,19 @@
     "expected",
     "comppass"
   ],
-  "author": "Taron Petrosyan, taron.petrosyan@picsart.com",
+  "author": {
+    "name" : "Taron Petrosyan",
+    "email" : "taron.petrosyan@picsart.com"
+    } ,
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/taronpa/comppass/issues"
   },
-  "homepage": "https://github.com/taronpa/comppass#readme"
+  "homepage": "https://github.com/taronpa/comppass#readme",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
+  }
 }
