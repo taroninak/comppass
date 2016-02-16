@@ -4,7 +4,8 @@ var obj = {
   surname : "Petrosyan",
   o : {
     nickname : "tgtaron",
-    username : "tgtaron"
+    username : "tgtaron",
+    arr : [ "1", 5 , "Blablabla"]
   }
 };
 var format = {
@@ -12,7 +13,8 @@ var format = {
   surname : "/petrosyan/i",
   o : {
     nickname : "/taron/",
-    username : "/^[g]/"
+    username : "/[g]/",
+    arr : [ "1", 5 , "/^[bl]/"]
   }
 };
 describe("Comppass", function () {

@@ -2,8 +2,6 @@ var chai = require('chai');
 chai.config.includeStack = true;
 var should = chai.should();
 var expect = chai.expect;
-/*var cObject = {};
-var format = {};*/
 
 function compare (value, format, cb) {
   if(typeof format == 'string' && typeof value == 'string') {
@@ -30,7 +28,16 @@ function compare (value, format, cb) {
     }
   }
   else if(Array.isArray(format) && Array.isArray(value)) {
-
+    for(var index in format){
+      try {
+        compare(value[index], format[index]);
+      }
+      catch(err) {
+        if(err) {
+         throw new ComppassException(index, err);
+       }
+      }
+    }
   }
   else {
     expect(value).to.equal(format);
