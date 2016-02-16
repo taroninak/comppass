@@ -14,11 +14,23 @@ var format = {
   o : {
     nickname : "/taron/",
     username : "/[g]/",
-    arr : [ "1", 5 , "/^[bl]/"]
+    arr : [ "1", 5 , "/^[^B]/"]
   }
 };
 describe("Comppass", function () {
   it("Compare Objects", function () {
     comppass(obj,format);
-  })
+  });
+
+  it("Compare Strings", function () {
+    comppass("Sample string", "/[st]+/");
+  });
+
+  it("Compare Booleans", function () {
+    comppass(false, true);
+  });
+
+  it("Compare Numbers", function () {
+    comppass(10, 10);
+  });
 });

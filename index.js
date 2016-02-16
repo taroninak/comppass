@@ -52,11 +52,4 @@ function ComppassException(key, err) {
    };
 }
 
-function errorHandling(err, cb) {
-  if(cb) {
-    return cb(err);
-  }
-  else throw err;
-}
-
 module.exports = compare;
