@@ -2,28 +2,28 @@ var chai = require('chai');
 chai.config.includeStack = true;
 var should = chai.should();
 var expect = chai.expect;
+var _showDiff = false;
+var assert = chai.assert;
 
 function compare (value, format, cb) {
   if(typeof format == 'string' && typeof value == 'string') {
     if(/^\/.*\/([img])*?$/.test(format)) {
       var result = /^\/(.*)\/(([img])+)?$/.exec(format);
       var exp = new RegExp(result[1], result[2]);
-      expect(exp.test(value),
-      'Object  does not match to ' +
-      format + ' regular expression!').to.equal(true);
-    }
-    else expect(value).to.equal(format);
-  }
-  else if(typeof format == 'object' && typeof value == 'object') {
-    for(var key in format) {
-      expect(value).to.have.property(key);
-      try {
-        compare(value[key], format[key]);
+      if(!exp.test(value)) {
+        /*assert.fail(value, format, 'does not match ' +
+        format + ' regular expression');*/
+        throw new AssertionError('does not match', value,
+        format, 'regexp', value);
       }
-      catch(err) {
+    }
+    else {
+      try {
+        expect(value).to.equal(format);
+      } catch(err) {
         if(err) {
-         throw new ComppassException(key,err);
-       }
+          throw new AssertionError(err.message, err.actual, err.expected, 'value', value);
+        }
       }
     }
   }
@@ -34,22 +34,51 @@ function compare (value, format, cb) {
       }
       catch(err) {
         if(err) {
-         throw new ComppassException(index, err);
-       }
+          throw new AssertionError(err.message, err.actual, err.expected, err.type, '[ ' + index + ' : ' + err.str + '] ');
+        }
+      }
+    }
+  }
+  else if(typeof format == 'object' && typeof value == 'object') {
+    for(var key in format) {
+      expect(value).to.have.property(key);
+      try {
+        compare(value[key], format[key]);
+      }
+      catch(err) {
+        if(err) {
+          throw new AssertionError(err.message, err.actual, err.expected, err.type, '{ ' + key + ' : ' + err.str + '} ');
+        }
       }
     }
   }
   else {
-    expect(value).to.equal(format);
+    try {
+      expect(value).to.equal(format);
+    } catch(err) {
+      if(err) {
+        throw new AssertionError(err.message, err.actual, err.expected, 'value', value);
+      }
+    }
   }
 }
 
-function ComppassException(key, err) {
-   this.value = key;
-   this.message = '{ ' + key + ' : ' + err + ' }';
-   this.toString = function() {
-      return this.message;
-   };
+function AssertionError(message, actual, expected, type, str) {
+  this.mssg = message;
+  this.actual = actual;
+  this.expected = expected;
+  this.type = type;
+  this.str = str;
+  this.showDiff = _showDiff;
+  this.toString = function () {
+    if(this.type == "regexp") {
+      return 'AssertionError: ' + this.str + ' ' + 'does not mutch ' + this.expected + ' regular expression';
+    } else if(this.type == "value") {
+      return 'AssertionError: ' + 'expected ' + this.actual + ' ' + 'to equal ' + this.expected;
+    }
+    //else return 'AssertionError: ' + this.str + ' ' + this.actual + ' ' /*+ this.mssg + *' '*/ + this.expected;
+  }
+  this.message = this.toString();
 }
 
 module.exports = compare;

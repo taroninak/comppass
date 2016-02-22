@@ -5,7 +5,8 @@ var obj = {
   o : {
     nickname : "tgtaron",
     username : "tgtaron",
-    arr : [ "1", 5 , "Blablabla"]
+    arr2 : [],
+    arr : [ "1", 5 , [4,3,"Blablabla"]]
   }
 };
 var format = {
@@ -14,7 +15,8 @@ var format = {
   o : {
     nickname : "/taron/",
     username : "/[g]/",
-    arr : [ "1", 5 , "/^[^B]/"]
+    arr2 : [],
+    arr : [ "1", 5 , [4,3,"/^[^B]/"]]
   }
 };
 describe("Comppass", function () {
@@ -31,6 +33,6 @@ describe("Comppass", function () {
   });
 
   it("Compare Numbers", function () {
-    comppass(10, 10);
+    comppass(10, 11);
   });
 });
