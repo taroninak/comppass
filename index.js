@@ -4,6 +4,7 @@ var should = chai.should();
 var expect = chai.expect;
 var _showDiff = false;
 var assert = chai.assert;
+var util = require('util');
 
 function compare (value, format, cb) {
   if(typeof format == 'string' && typeof value == 'string') {
@@ -11,10 +12,8 @@ function compare (value, format, cb) {
       var result = /^\/(.*)\/(([img])+)?$/.exec(format);
       var exp = new RegExp(result[1], result[2]);
       if(!exp.test(value)) {
-        /*assert.fail(value, format, 'does not match ' +
-        format + ' regular expression');*/
-        throw new AssertionError('does not match', value,
-        format, 'regexp', value);
+        throw new AssertionError('does not match', '"' + value + '"',
+        format, 'regexp', '"' + value + '"');
       }
     }
     else {
@@ -22,7 +21,7 @@ function compare (value, format, cb) {
         expect(value).to.equal(format);
       } catch(err) {
         if(err) {
-          throw new AssertionError(err.message, err.actual, err.expected, 'value', value);
+          throw new AssertionError(err.message, '"' + err.actual + '"', '"' + err.expected + '"', 'value', '"' + value + '"');
         }
       }
     }
@@ -63,7 +62,10 @@ function compare (value, format, cb) {
   }
 }
 
+AssertionError.prototype.name = 'AssertionError';
 function AssertionError(message, actual, expected, type, str) {
+  Error.captureStackTrace(this, this.constructor);
+  this.name = this.constructor.name;
   this.mssg = message;
   this.actual = actual;
   this.expected = expected;
@@ -71,14 +73,15 @@ function AssertionError(message, actual, expected, type, str) {
   this.str = str;
   this.showDiff = _showDiff;
   this.toString = function () {
-    if(this.type == "regexp") {
-      return 'AssertionError: ' + this.str + ' ' + 'does not mutch ' + this.expected + ' regular expression';
-    } else if(this.type == "value") {
-      return 'AssertionError: ' + 'expected ' + this.actual + ' ' + 'to equal ' + this.expected;
+    if(this.type == 'regexp') {
+      return this.str + ' ' + 'does not mutch ' + this.expected + ' regular expression';
+    } else if(this.type == 'value') {
+      return 'expected ' + this.actual + ' ' + 'to equal ' + this.expected;
     }
-    //else return 'AssertionError: ' + this.str + ' ' + this.actual + ' ' /*+ this.mssg + *' '*/ + this.expected;
   }
   this.message = this.toString();
 }
+
+util.inherits(AssertionError, Error);
 
 module.exports = compare;
