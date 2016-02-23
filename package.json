@@ -1,6 +1,6 @@
 {
   "name": "comppass",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Comppass is a lightweight node module which provide basic functionality for comparing objects",
   "main": "index.js",
   "scripts": {

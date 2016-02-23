@@ -41,8 +41,8 @@ function compare (value, format, cb) {
   }
   else if(typeof format == 'object' && typeof value == 'object') {
     for(var key in format) {
-      expect(value).to.have.property(key);
       try {
+        expect(value).to.have.property(key);
         compare(value[key], format[key]);
       }
       catch(err) {

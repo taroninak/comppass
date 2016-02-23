@@ -35,4 +35,16 @@ describe("Comppass", function () {
   it("Compare Numbers", function () {
     comppass(10, 11);
   });
+
+  it("Compare Location", function () {
+    comppass({location : {place: "Somewhere1 in the world",}}, {"location": {
+            "place": "Somewhere in the world",
+            "street": "",
+            "city": "",
+            "state": "",
+            "zip": "",
+            "country": ""
+          }});
+  });
+
 });
