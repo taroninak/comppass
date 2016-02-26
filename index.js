@@ -29,6 +29,7 @@ function compare (value, format, cb) {
   else if(Array.isArray(format) && Array.isArray(value)) {
     for(var index in format){
       try {
+        expect(value).to.exist;
         compare(value[index], format[index]);
       }
       catch(err) {
@@ -46,6 +47,11 @@ function compare (value, format, cb) {
       }
       catch(err) {
         if(err) {
+          if(!err.str){
+            //err.message = "does not have " + key + " property";
+            err.str = '';
+            err.type = 'property';
+          }
           throw new AssertionError(err.message, err.actual, err.expected, err.type, '{ ' + key + ' : ' + err.str + '} ');
         }
       }
@@ -77,6 +83,8 @@ function AssertionError(message, actual, expected, type, str) {
       return this.str + ' ' + 'does not mutch ' + this.expected + ' regular expression';
     } else if(this.type == 'value') {
       return 'expected ' + this.actual + ' ' + 'to equal ' + this.expected;
+    }else if(this.type == 'property'){
+      return this.mssg;
     }
   }
   this.message = this.toString();
