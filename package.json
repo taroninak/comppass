@@ -1,8 +1,8 @@
 {
   "name": "comppass",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Comppass is a lightweight node module which provide basic functionality for comparing objects",
-  "main": "index.js",
+  "main": "./lib/comppass.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha tests --timeout 5000"
   },
@@ -32,10 +32,7 @@
   },
   "homepage": "https://github.com/taronpa/comppass#readme",
   "dependencies": {
-    "assertion-error": "^1.0.1",
     "chai": "^3.5.0",
-    "mocha": "^2.4.5",
-    "sinon": "^1.17.3",
-    "sinon-chai": "^2.8.0"
+    "mocha": "^2.4.5"
   }
 }
